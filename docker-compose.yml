@@ -1,0 +1,26 @@
+version: "2.1"
+services:
+  docker-powerdns:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - ENVIRONMENT=${ENVIRONMENT}
+    image: docker-powerdns
+    container_name: docker-powerdns
+    ports:
+      - "8081:8081"
+      - "53:53"
+      - "53:53/udp"
+    networks:
+      - default
+    environment:
+      - PDNS_API_KEY=${PDNS_API_KEY}
+      - PDNS_WEBSERVER_ALLOW_FROM=${PDNS_WEBSERVER_ALLOW_FROM}
+    command: --api=yes --api-key=${PDNS_API_KEY} --webserver-address=0.0.0.0 --webserver-allow-from=0.0.0.0/0
+    networks:
+      - default
+
+networks:
+  default:
+

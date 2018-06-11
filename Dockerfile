@@ -2,15 +2,9 @@ FROM alpine
 MAINTAINER Christoph Wiechert <wio@psitrax.de>
 
 ENV REFRESHED_AT="2018-05-21" \
-    POWERDNS_VERSION=4.1.2 \
-    MYSQL_AUTOCONF=true \
-    MYSQL_HOST="mysql" \
-    MYSQL_PORT="3306" \
-    MYSQL_USER="root" \
-    MYSQL_PASS="root" \
-    MYSQL_DB="pdns"
+    POWERDNS_VERSION=4.1.3 
 
-RUN apk --update add mysql-client mariadb-client-libs libpq sqlite-libs libstdc++ libgcc && \
+RUN apk --update add mysql-client mariadb-client-libs libpq sqlite sqlite-libs libstdc++ libgcc && \
     apk add --virtual build-deps \
       g++ make mariadb-dev postgresql-dev sqlite-dev curl boost-dev && \
     curl -sSL https://downloads.powerdns.com/releases/pdns-$POWERDNS_VERSION.tar.bz2 | tar xj -C /tmp && \
@@ -24,7 +18,7 @@ RUN apk --update add mysql-client mariadb-client-libs libpq sqlite-libs libstdc+
     apk del --purge build-deps && \
     rm -rf /tmp/pdns-$POWERDNS_VERSION /var/cache/apk/*
 
-ADD schema.sql pdns.conf /etc/pdns/
+ADD schema.sql sqlite3.sql pdns.conf /etc/pdns/
 ADD entrypoint.sh /
 
 EXPOSE 53/tcp 53/udp
