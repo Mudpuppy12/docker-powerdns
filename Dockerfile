@@ -21,6 +21,6 @@ RUN apk --update add mysql-client mariadb-client-libs libpq sqlite sqlite-libs l
 ADD schema.sql sqlite3.sql pdns.conf /etc/pdns/
 ADD entrypoint.sh /
 
-EXPOSE 53/tcp 53/udp
+#EXPOSE 53/tcp 53/udp
 
 ENTRYPOINT ["/entrypoint.sh"]

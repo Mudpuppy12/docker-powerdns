@@ -11,9 +11,11 @@ set -e
 if [[ ! -e /etc/pdns/pdns.db ]]; then
   echo Creating sqlite3 Database
   sqlite3 /etc/pdns/pdns.db < /etc/pdns/sqlite3.sql
-  chown pdns /etc/pdns
-  chown pdns /etc/pdns/pdns.db
 fi
+
+chown pdns /etc/pdns/pdns.db
+chown pdns /etc/pdns
+
 
 
 # Run pdns server
